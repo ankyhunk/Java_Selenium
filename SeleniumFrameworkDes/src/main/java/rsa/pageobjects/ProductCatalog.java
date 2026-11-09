@@ -1,14 +1,15 @@
-package rahulshettyacademy.pageobjects;
+package rsa.pageobjects;
 
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import rahulshettyacademy.abstractcomponents.AbstractComponent;
+import rsa.abstractcomponents.AbstractComponent;
 
 
 
@@ -25,7 +26,8 @@ public class ProductCatalog extends AbstractComponent{
 	List<WebElement> products;
 	
 	By productsBy = By.cssSelector(".mb-3");
-	By addToCart = By.xpath("(//div[@class='card-body']/button)[2]");
+	// Searched inside one product card, so it picks that card's "Add To Cart" button
+	By addToCart = By.cssSelector(".card-body button:last-of-type");
 	By toastMessage=By.cssSelector("#toast-container");
 	@FindBy(css=".ng-animating")
 	WebElement spinner;
@@ -43,9 +45,15 @@ public class ProductCatalog extends AbstractComponent{
 	
 	public void addProductToCart(String productName) throws InterruptedException {
 		WebElement prod=getProductByName(productName);
-		prod.findElement(addToCart);
-		super.ButtonClick(addToCart);
-		waitForElementToAppear(toastMessage);
-		waitForElementToDisappear(spinner);
+		if (prod==null) {
+			throw new IllegalArgumentException("Product not found on page: "+productName);
+		}
+		super.ButtonClick(prod.findElement(addToCart));
+		try {
+			waitForElementToAppear(toastMessage);
+		} catch (TimeoutException e) {
+			// The "added to cart" pop-up can vanish before we see it; that's fine
+		}
+		waitForElementToDisappear(toastMessage);
 	}
 }

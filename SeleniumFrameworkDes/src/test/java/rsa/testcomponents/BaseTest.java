@@ -1,4 +1,4 @@
-package rahulshettyacademy.testcomponents;
+package rsa.testcomponents;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,7 +19,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import rahulshettyacademy.pageobjects.LandingPage;
+import rsa.pageobjects.LandingPage;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
@@ -29,7 +29,7 @@ public class BaseTest {
 	
 	public WebDriver initializeDriver() throws IOException {
 		Properties prop = new Properties();
-		FileInputStream fis=new FileInputStream(System.getProperty("user.dir")+"\\src\\main\\java\\rahulshettyacademy\\resources\\GlobalData.properties");
+		FileInputStream fis=new FileInputStream(System.getProperty("user.dir")+"\\src\\main\\java\\rsa\\resources\\GlobalData.properties");
 		prop.load(fis);	
 		String browserName=prop.getProperty("browser");
 		if (browserName.equalsIgnoreCase("Chrome")) {
@@ -67,8 +67,9 @@ public class BaseTest {
 		landingPage.goTo();
 		return landingPage;
 	}
-	@AfterMethod
+	@AfterMethod(alwaysRun=true)
 	public void tearDown() {
- 		driver.close();
+		// quit() closes the browser and stops chromedriver; close() only closes the window
+ 		driver.quit();
 	}
 }

@@ -1,11 +1,11 @@
-package rahulshettyacademy.stepDefinitions;
+package rsa.stepDefinitions;
 
-import rahulshettyacademy.pageobjects.CartPage;
-import rahulshettyacademy.pageobjects.CheckoutPage;
-import rahulshettyacademy.pageobjects.ConfirmationPage;
-import rahulshettyacademy.pageobjects.LandingPage;
-import rahulshettyacademy.pageobjects.ProductCatalog;
-import rahulshettyacademy.testcomponents.BaseTest;
+import rsa.pageobjects.CartPage;
+import rsa.pageobjects.CheckoutPage;
+import rsa.pageobjects.ConfirmationPage;
+import rsa.pageobjects.LandingPage;
+import rsa.pageobjects.ProductCatalog;
+import rsa.testcomponents.BaseTest;
 
 import java.io.IOException;
 import java.util.List;

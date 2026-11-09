@@ -1,4 +1,4 @@
-package rahulshettyacademy.tests;
+package rsa.tests;
 
 import org.testng.annotations.Test;
 import org.testng.AssertJUnit;
@@ -27,17 +27,17 @@ import org.testng.annotations.Test;
 import org.openqa.selenium.TakesScreenshot;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import rahulshettyacademy.pageobjects.*;
-import rahulshettyacademy.testcomponents.BaseTest;
+import rsa.pageobjects.*;
+import rsa.testcomponents.BaseTest;
 
 public class SubmitOrderTest extends BaseTest{
 	String productName="ZARA COAT 3";
 	
 //		WebDriverManager.chromedriver().setup();
-	@Test
+	@Test(dataProvider="getData",groups={"Purchase"})
 	public void submitOrder(HashMap<String,String> input) throws IOException, InterruptedException{
 		
-		LandingPage landingPage=launchApplication();
+		// Browser is already opened by @BeforeMethod launchApplication() in BaseTest
 		ProductCatalog productCatalog=landingPage.loginApplication(input.get("email"),input.get("password"));
 				
 		List<WebElement>products=productCatalog.getProductList();
@@ -78,11 +78,12 @@ public class SubmitOrderTest extends BaseTest{
 		
 	}
 	
-	@Test
+	// Runs after submitOrder; ankyhunk@gmail.com orders ADIDAS ORIGINAL in PurchaseOrder.json
+	@Test(dependsOnMethods={"submitOrder"})
 	public void OrderHistoryTest() {
 		ProductCatalog productCatalog=landingPage.loginApplication("ankyhunk@gmail.com","Ank123ur");
 		OrderPage ordersPage=productCatalog.goToOrdersPage();
-		Assert.assertTrue(ordersPage.VerifyOrderDisplay(productName));
+		Assert.assertTrue(ordersPage.VerifyOrderDisplay("ADIDAS ORIGINAL"));
 	}
 	
 	@DataProvider
@@ -95,7 +96,7 @@ public class SubmitOrderTest extends BaseTest{
 //		map1.put("email","rahulshetty@gmail.com");
 //		map1.put("password", "Iamking@000");
 //		map1.put("product", "ADIDAS ORIGINAL");
-		List<HashMap<String,String>> data= getJsonDataToMap(System.getProperty("user.dir")+"\\src\\test\\java\\rahulshettyacademy\\data\\PurchaseOrder.json");
+		List<HashMap<String,String>> data= getJsonDataToMap(System.getProperty("user.dir")+"\\src\\test\\java\\rsa\\data\\PurchaseOrder.json");
 		return new Object[][] {{data.get(0)},{data.get(1)}};
 	}
 

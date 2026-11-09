@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite parallel="tests" name="Suite">
+<!-- Not parallel: the tests share one website account, so they would clash over its cart -->
+<suite name="Suite">
   <groups>
 	<run>
 	  <include name="Purchase"/>
@@ -8,12 +9,12 @@
   </groups>
   <test thread-count="5" name="Submit Order Test">
     <classes>
-      <class name="rahulshettyacademy.tests.SubmitOrderTest"/>
+      <class name="rsa.tests.SubmitOrderTest"/>
     </classes>
   </test> <!-- Test -->
   <test thread-count="5" name="Error Validations Test">
     <classes>
-      <class name="rahulshettyacademy.tests.ErrorValidationsTest"/>
+      <class name="rsa.tests.ErrorValidationsTest"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

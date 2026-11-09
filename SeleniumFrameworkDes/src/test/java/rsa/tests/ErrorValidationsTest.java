@@ -1,4 +1,4 @@
-package rahulshettyacademy.tests;
+package rsa.tests;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -16,13 +16,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import rahulshettyacademy.pageobjects.CartPage;
-import rahulshettyacademy.pageobjects.CheckoutPage;
-import rahulshettyacademy.pageobjects.ConfirmationPage;
-import rahulshettyacademy.pageobjects.LandingPage;
-import rahulshettyacademy.pageobjects.ProductCatalog;
-import rahulshettyacademy.testcomponents.BaseTest;
-import rahulshettyacademy.testcomponents.Retry;
+import rsa.pageobjects.CartPage;
+import rsa.pageobjects.CheckoutPage;
+import rsa.pageobjects.ConfirmationPage;
+import rsa.pageobjects.LandingPage;
+import rsa.pageobjects.ProductCatalog;
+import rsa.testcomponents.BaseTest;
+import rsa.testcomponents.Retry;
 
 public class ErrorValidationsTest extends BaseTest{
 

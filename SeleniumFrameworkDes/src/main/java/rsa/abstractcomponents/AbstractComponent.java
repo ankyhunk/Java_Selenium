@@ -1,4 +1,4 @@
-package rahulshettyacademy.abstractcomponents;
+package rsa.abstractcomponents;
 
 import java.time.Duration;
 
@@ -11,8 +11,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import rahulshettyacademy.pageobjects.CartPage;
-import rahulshettyacademy.pageobjects.OrderPage;
+import rsa.pageobjects.CartPage;
+import rsa.pageobjects.OrderPage;
 
 public class AbstractComponent {
 	WebDriver driver;
@@ -34,18 +34,30 @@ public class AbstractComponent {
 //		WebDriverWait wait=new WebDriverWait(driver,Duration.ofSeconds(10));
 //		wait.until(ExpectedConditions.invisibilityOf(ele));
 	}
+	public void waitForElementToDisappear(By findBy) {
+		WebDriverWait wait=new WebDriverWait(driver,Duration.ofSeconds(10));
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(findBy));
+	}
 	public CartPage goToCartPage() {
-		cartHeader.click();
+		ButtonClick(cartHeader);
+		// Make sure the cart page actually opened before reading it
+		new WebDriverWait(driver,Duration.ofSeconds(10)).until(ExpectedConditions.urlContains("cart"));
+		waitForElementToAppear(By.cssSelector(".cartSection h3"));
 		CartPage cartpage=new CartPage(driver);
 		return cartpage;
 	}
 	public OrderPage goToOrdersPage() {
-		orderHeader.click();
+		ButtonClick(orderHeader);
+		new WebDriverWait(driver,Duration.ofSeconds(10)).until(ExpectedConditions.urlContains("myorders"));
+		waitForElementToAppear(By.xpath("//tr/td[2]"));
 		OrderPage orderpage=new OrderPage(driver);
 		return orderpage;
 	}
 	public void ButtonClick(By button) {
-		JavascriptExecutor jse=(JavascriptExecutor)driver; 
-		jse.executeScript("arguments[0].click();",driver.findElement(button));
+		ButtonClick(driver.findElement(button));
+	}
+	public void ButtonClick(WebElement button) {
+		JavascriptExecutor jse=(JavascriptExecutor)driver;
+		jse.executeScript("arguments[0].click();",button);
 	}
 }

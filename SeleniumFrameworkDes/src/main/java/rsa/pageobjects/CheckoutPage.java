@@ -1,6 +1,9 @@
-package rahulshettyacademy.pageobjects;
+package rsa.pageobjects;
+
+import java.time.Duration;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,8 +11,9 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-import rahulshettyacademy.abstractcomponents.AbstractComponent;
+import rsa.abstractcomponents.AbstractComponent;
 
 
 
@@ -26,18 +30,26 @@ public class CheckoutPage extends AbstractComponent{
 	@FindBy(css="[placeholder='Select Country']")
 	WebElement country;
 	
-	By selectCountry= By.xpath("(//button[contains(@class,'ta-item')])[2]");
-		
+	By countryInput=By.cssSelector("[placeholder='Select Country']");
 	By results=By.cssSelector(".ta-results");
-	
+
 	public void selectCountry(String countryName) throws InterruptedException {
-		Actions a=new Actions(driver);
-		System.out.println("Cntry:"+countryName);
-		Thread.sleep(1000);
-		a.sendKeys(country, countryName).build().perform();
-		
-//		waitForElementToAppear(results);
-		ButtonClick(selectCountry);
+		waitForElementToAppear(countryInput);
+		// The page sometimes drops text typed while it is still loading, so retry until suggestions show
+		for (int attempt=1; ; attempt++) {
+			country.clear();
+			country.sendKeys(countryName);
+			try {
+				new WebDriverWait(driver,Duration.ofSeconds(15)).until(ExpectedConditions.visibilityOfElementLocated(results));
+				break;
+			} catch (TimeoutException e) {
+				if (attempt==3) throw e;
+			}
+		}
+		// Pick the suggestion whose text is exactly the country (e.g. "India", not "British Indian Ocean Territory")
+		By option=By.xpath("//button[contains(@class,'ta-item')][normalize-space()='"+countryName+"']");
+		waitForElementToAppear(option);
+		ButtonClick(option);
 	}
 	
 	public ConfirmationPage submitOrder() {

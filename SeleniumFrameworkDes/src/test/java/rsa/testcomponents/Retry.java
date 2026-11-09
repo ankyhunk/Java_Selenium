@@ -1,4 +1,4 @@
-package rahulshettyacademy.testcomponents;
+package rsa.testcomponents;
 
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;

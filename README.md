@@ -2,7 +2,7 @@
 
 A Java test automation framework for an e-commerce web app, built with **Selenium WebDriver**, **TestNG** and **Cucumber**, using the **Page Object Model**.
 
-The tests run against the practice store at <https://rahulshettyacademy.com/client/>: they log in, add a product to the cart, check out and verify the order, plus negative tests for wrong logins and products.
+The tests run against the store at <https://rahulshettyacademy.com/client/>: they log in, add a product to the cart, check out and verify the order, plus negative tests for wrong logins and products.
 
 ## Tech stack
 
@@ -63,7 +63,6 @@ SeleniumFrameworkDes/
 - JDK 17 or newer
 - Maven 3.9 or newer
 - Google Chrome (Selenium Manager downloads the matching ChromeDriver automatically)
-- An account on the practice store, entered in `PurchaseOrder.json` and the test classes
 
 ## Running the tests
 
@@ -93,9 +92,6 @@ Run the Cucumber scenarios:
 ```bash
 mvn test -Dtest=TestNGTestRunner
 ```
-
-> **Known issue:** the Cucumber scenarios currently fail with "Could not create a cucumber expression for '{string1} message is displayed'". A step in `StepDefinitionImpl.java` uses `{string1}` where Cucumber expects `{string}`. The TestNG suite is not affected.
-
 ### In Eclipse
 
 1. **File → Import → Maven → Existing Maven Projects**, then choose the `SeleniumFrameworkDes` folder.
@@ -122,8 +118,3 @@ mvn test -Dtest=TestNGTestRunner
 | TestNG report | `target/surefire-reports/index.html` |
 | Cucumber report | `target/Cucumber.html` |
 
-## Notes
-
-- Suites run **one test at a time** (not in parallel), because the tests share one account and one cart on the website.
-- `ErrorValidationsTest.LoginErrorValidation` retries once if it fails. TestNG then reports the first attempt as "skipped".
-- The browser is set in `GlobalData.properties`. Only `chrome` is fully set up.

@@ -1,4 +1,4 @@
-# Selenium Framework
+# Java Selenium 
 
 A Java test automation framework for an e-commerce web app, built with **Selenium WebDriver**, **TestNG** and **Cucumber**, using the **Page Object Model**.
 

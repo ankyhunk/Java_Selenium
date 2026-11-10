@@ -14,6 +14,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.AssertJUnit;
 
+import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -53,12 +54,18 @@ public class StepDefinitionImpl extends BaseTest {
 	public void message_displayed_ConfirmationPage(String string) {
 		String confirmMsg = confirmationPage.getConfirmationMessage();
 		Assert.assertTrue(confirmMsg.equalsIgnoreCase(string));
-		driver.close();
 	}
-	
-	@Then("{string1} message is displayed")
-	public void message_is_displayed(String string1) {
-		Assert.assertEquals(string1,landingPage.getErrorMessage());
-		driver.close();
+
+	@Then("{string} message is displayed")
+	public void message_is_displayed(String expectedMessage) {
+		Assert.assertEquals(expectedMessage,landingPage.getErrorMessage());
+	}
+
+	// Runs after every scenario, passed or failed, so no browser is left open
+	@After
+	public void closeBrowser() {
+		if (driver!=null) {
+			driver.quit();
+		}
 	}
 }

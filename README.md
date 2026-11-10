@@ -1,0 +1,129 @@
+# Selenium Framework
+
+A Java test automation framework for an e-commerce web app, built with **Selenium WebDriver**, **TestNG** and **Cucumber**, using the **Page Object Model**.
+
+The tests run against the practice store at <https://rahulshettyacademy.com/client/>: they log in, add a product to the cart, check out and verify the order, plus negative tests for wrong logins and products.
+
+## Tech stack
+
+| Tool | Version | Used for |
+|---|---|---|
+| Java | 17+ | Language |
+| Maven | 3.9+ | Build and dependencies |
+| Selenium WebDriver | 4.36.0 | Browser automation |
+| TestNG | 7.11.0 | Test runner, data providers, groups, retries |
+| Cucumber | 7.30.0 | BDD feature files (Gherkin) |
+| Extent Reports | 5.1.2 | HTML test report with screenshots |
+| Jackson | 3.0.0 | Reading JSON test data |
+
+## Project structure
+
+```
+SeleniumFrameworkDes/
+├── pom.xml
+├── TestSuite/
+│   ├── testng.xml            # Full suite (all tests + Extent listener)
+│   ├── Purchase.xml          # Only tests in the "Purchase" group
+│   └── ErrorValid.xml        # Only tests in the "Error Handling" group
+└── src/
+    ├── main/java/rsa/
+    │   ├── abstractcomponents/
+    │   │   └── AbstractComponent.java   # Shared waits, header navigation, JS clicks
+    │   ├── pageobjects/                 # One class per page
+    │   │   ├── LandingPage.java
+    │   │   ├── ProductCatalog.java
+    │   │   ├── CartPage.java
+    │   │   ├── CheckoutPage.java
+    │   │   ├── ConfirmationPage.java
+    │   │   └── OrderPage.java
+    │   └── resources/
+    │       ├── GlobalData.properties    # browser=chrome
+    │       └── ExtentReporterNG.java    # Extent report setup
+    └── test/java/
+        ├── rsa/tests/
+        │   ├── SubmitOrderTest.java       # Place an order, then check order history
+        │   └── ErrorValidationsTest.java  # Wrong login / wrong product checks
+        ├── rsa/testcomponents/
+        │   ├── BaseTest.java     # Opens and quits the browser for each test
+        │   ├── Listeners.java    # Extent report + screenshot on failure
+        │   └── Retry.java        # Retries a flaky test once
+        ├── rsa/data/
+        │   ├── DataReader.java
+        │   └── PurchaseOrder.json   # Test data (login + product per row)
+        ├── rsa/stepDefinitions/
+        │   └── StepDefinitionImpl.java
+        └── cucumber/
+            ├── SubmitOrder.feature
+            ├── ErrorValidation.feature
+            └── TestNGTestRunner.java
+```
+
+## Prerequisites
+
+- JDK 17 or newer
+- Maven 3.9 or newer
+- Google Chrome (Selenium Manager downloads the matching ChromeDriver automatically)
+- An account on the practice store, entered in `PurchaseOrder.json` and the test classes
+
+## Running the tests
+
+Clone the repository and go to the project folder:
+
+```bash
+git clone https://github.com/ankyhunk/Selenium-Framework.git
+cd Selenium-Framework/SeleniumFrameworkDes
+```
+
+Run the full TestNG suite (`TestSuite/testng.xml`):
+
+```bash
+mvn clean test
+```
+
+Run a single test class:
+
+```bash
+mvn test -Dtest=SubmitOrderTest
+```
+
+Run only one group (`Purchase.xml` or `ErrorValid.xml`): right-click the file in Eclipse, then **Run As → TestNG Suite**. `pom.xml` always points Maven at `testng.xml`.
+
+Run the Cucumber scenarios:
+
+```bash
+mvn test -Dtest=TestNGTestRunner
+```
+
+> **Known issue:** the Cucumber scenarios currently fail with "Could not create a cucumber expression for '{string1} message is displayed'". A step in `StepDefinitionImpl.java` uses `{string1}` where Cucumber expects `{string}`. The TestNG suite is not affected.
+
+### In Eclipse
+
+1. **File → Import → Maven → Existing Maven Projects**, then choose the `SeleniumFrameworkDes` folder.
+2. Right-click the project, then **Maven → Update Project**.
+3. Right-click `TestSuite/testng.xml`, then **Run As → TestNG Suite** (needs the TestNG plugin from the Eclipse Marketplace).
+
+## Test data
+
+`src/test/java/rsa/data/PurchaseOrder.json` holds one row per order to place:
+
+```json
+[
+  { "email": "you@example.com", "password": "your-password", "product": "ZARA COAT 3" }
+]
+```
+
+`submitOrder` runs once for each row through a TestNG data provider.
+
+## Reports
+
+| Report | Location |
+|---|---|
+| Extent report (with failure screenshots) | `reports/index.html` |
+| TestNG report | `target/surefire-reports/index.html` |
+| Cucumber report | `target/Cucumber.html` |
+
+## Notes
+
+- Suites run **one test at a time** (not in parallel), because the tests share one account and one cart on the website.
+- `ErrorValidationsTest.LoginErrorValidation` retries once if it fails. TestNG then reports the first attempt as "skipped".
+- The browser is set in `GlobalData.properties`. Only `chrome` is fully set up.

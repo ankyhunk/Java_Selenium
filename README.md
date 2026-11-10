@@ -69,8 +69,8 @@ SeleniumFrameworkDes/
 Clone the repository and go to the project folder:
 
 ```bash
-git clone https://github.com/ankyhunk/Selenium-Framework.git
-cd Selenium-Framework/SeleniumFrameworkDes
+git clone https://github.com/ankyhunk/Selenium_Framework.git
+cd Selenium_Framework/SeleniumFrameworkDes
 ```
 
 Run the full TestNG suite (`TestSuite/testng.xml`):

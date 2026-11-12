@@ -4,5 +4,6 @@
 # Maven build output and test reports (screenshots can show the login)
 target/
 reports/
+test-output/
 
 .claude/settings.local.json

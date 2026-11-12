@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": ["Bash(mvn *)", "Bash(git status)", "Bash(git diff *)"],
+    "deny": ["Read(./.env)", "Edit(**/PurchaseOrder.json)"]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          { "type": "command", "command": "mvn -q -f SeleniumFrameworkDes/pom.xml compile 1>&2 || exit 2" }
+        ]
+      }
+    ]
+  }
+}

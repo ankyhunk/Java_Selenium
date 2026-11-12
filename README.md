@@ -69,8 +69,8 @@ SeleniumFrameworkDes/
 Set your test login first (see [Test data](#test-data)), then clone the repository and go to the project folder:
 
 ```bash
-git clone https://github.com/ankyhunk/Selenium_Framework.git
-cd Selenium_Framework/SeleniumFrameworkDes
+git clone https://github.com/ankyhunk/Java_Selenium.git
+cd Java_Selenium/SeleniumFrameworkDes
 ```
 
 Run the full TestNG suite (`TestSuite/testng.xml`):

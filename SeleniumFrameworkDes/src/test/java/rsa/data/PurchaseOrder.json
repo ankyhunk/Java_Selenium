@@ -1,12 +1,12 @@
 [
 {
-	"email" : "ankyhunk@gmail.com",
-	"password" : "Ank123ur",
+	"email" : "${TEST_EMAIL}",
+	"password" : "${TEST_PASSWORD}",
 	"product" : "ZARA COAT 3"
 },
 {
-	"email" : "ankyhunk@gmail.com",
-	"password" : "Ank123ur",
+	"email" : "${TEST_EMAIL}",
+	"password" : "${TEST_PASSWORD}",
 	"product" : "ADIDAS ORIGINAL"
 }
 ]

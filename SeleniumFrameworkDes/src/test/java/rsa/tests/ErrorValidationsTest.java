@@ -23,6 +23,7 @@ import rsa.pageobjects.LandingPage;
 import rsa.pageobjects.ProductCatalog;
 import rsa.testcomponents.BaseTest;
 import rsa.testcomponents.Retry;
+import rsa.testcomponents.TestCredentials;
 
 public class ErrorValidationsTest extends BaseTest{
 
@@ -31,14 +32,14 @@ public class ErrorValidationsTest extends BaseTest{
 	public void LoginErrorValidation() throws IOException, InterruptedException{
 		//String productName="ZARA COAT 3";
 		
-		landingPage.loginApplication("ankyhunk@gmail.com","Ankur");
+		landingPage.loginApplication(TestCredentials.email(),"wrong-password");
 		Assert.assertEquals("Incorrect email or password.", landingPage.getErrorMessage());
 	}
 	@Test
 	public void ProductErrorValidation() throws IOException, InterruptedException{
 		String productName="ZARA COAT 3";
 		
-		ProductCatalog productCatalog=landingPage.loginApplication("ankyhunk@gmail.com","Ank123ur");
+		ProductCatalog productCatalog=landingPage.loginApplication(TestCredentials.email(),TestCredentials.password());
 		
 		List<WebElement>products=productCatalog.getProductList();
 		productCatalog.addProductToCart(productName);

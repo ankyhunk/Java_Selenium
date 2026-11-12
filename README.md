@@ -66,7 +66,7 @@ SeleniumFrameworkDes/
 
 ## Running the tests
 
-Clone the repository and go to the project folder:
+Set your test login first (see [Test data](#test-data)), then clone the repository and go to the project folder:
 
 ```bash
 git clone https://github.com/ankyhunk/Selenium_Framework.git
@@ -100,15 +100,30 @@ mvn test -Dtest=TestNGTestRunner
 
 ## Test data
 
-`src/test/java/rsa/data/PurchaseOrder.json` holds one row per order to place:
+The tests log in to the store with your own account, which is never stored in the repository. Create a free account at <https://rahulshettyacademy.com/client/>, then set two environment variables before running the tests:
+
+```bash
+export TEST_EMAIL="you@example.com"
+export TEST_PASSWORD="your-password"
+```
+
+On Windows (PowerShell), for the current session:
+
+```powershell
+$env:TEST_EMAIL = "you@example.com"; $env:TEST_PASSWORD = "your-password"
+```
+
+Or pass them to Maven: `mvn clean test -Dtest.email=you@example.com -Dtest.password=your-password`. To run from Eclipse, set them as Windows user environment variables and restart Eclipse.
+
+`src/test/java/rsa/data/PurchaseOrder.json` holds one row per order to place. The login fields are placeholders that `TestCredentials` fills in:
 
 ```json
 [
-  { "email": "you@example.com", "password": "your-password", "product": "ZARA COAT 3" }
+  { "email": "${TEST_EMAIL}", "password": "${TEST_PASSWORD}", "product": "ZARA COAT 3" }
 ]
 ```
 
-`submitOrder` runs once for each row through a TestNG data provider.
+`submitOrder` runs once for each row through a TestNG data provider. The Cucumber feature files use the same placeholders.
 
 ## Claude Code setup
 

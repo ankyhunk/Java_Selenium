@@ -110,6 +110,20 @@ mvn test -Dtest=TestNGTestRunner
 
 `submitOrder` runs once for each row through a TestNG data provider.
 
+## Claude Code setup
+
+This repo is configured for [Claude Code](https://docs.claude.com/en/docs/claude-code/overview), so it follows the framework's conventions out of the box:
+
+| File | Purpose |
+|---|---|
+| `CLAUDE.md` | Build/test commands, Page Object conventions and known pitfalls |
+| `.claude/settings.json` | Permissions (no access to credentials) and a hook that compiles after every edit |
+| `.claude/skills/new-page-object/` | `/new-page-object` skill: adds a Page Object and a matching test |
+| `.claude/agents/test-reviewer.md` | Read-only subagent that reviews tests for flakiness and missing cleanup |
+| `.github/workflows/claude.yml` | Comment `@claude` on an issue or PR to have Claude do the work in CI |
+
+See [docs/claude-code-setup.md](docs/claude-code-setup.md) for how each piece works and why it's designed that way.
+
 ## Reports
 
 | Report | Location |

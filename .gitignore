@@ -1,0 +1,7 @@
+# Eclipse workspace data
+.metadata/
+
+# Build output and test reports (screenshots can show the login)
+target/
+reports/
+test-output/

@@ -1,3 +1,8 @@
-/.metadata/
+# Eclipse workspace data
+.metadata/
+
+# Maven build output and test reports (screenshots can show the login)
+target/
+reports/
 
 .claude/settings.local.json

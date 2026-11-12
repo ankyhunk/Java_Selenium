@@ -50,6 +50,8 @@ public class BaseTest {
 					StandardCharsets.UTF_8);
 			ObjectMapper mapper=new ObjectMapper();
 			List<HashMap<String,String>> data=mapper.readValue(jsonContent,new TypeReference<List<HashMap<String,String>>>(){});
+			// Fill in ${TEST_EMAIL} / ${TEST_PASSWORD} from the environment
+			data.forEach(row -> row.replaceAll((key, value) -> TestCredentials.resolve(value)));
 			return data;
 		}
 	    

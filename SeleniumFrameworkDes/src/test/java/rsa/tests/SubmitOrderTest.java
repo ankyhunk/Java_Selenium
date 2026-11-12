@@ -29,6 +29,7 @@ import org.openqa.selenium.TakesScreenshot;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import rsa.pageobjects.*;
 import rsa.testcomponents.BaseTest;
+import rsa.testcomponents.TestCredentials;
 
 public class SubmitOrderTest extends BaseTest{
 	String productName="ZARA COAT 3";
@@ -78,10 +79,10 @@ public class SubmitOrderTest extends BaseTest{
 		
 	}
 	
-	// Runs after submitOrder; ankyhunk@gmail.com orders ADIDAS ORIGINAL in PurchaseOrder.json
+	// Runs after submitOrder; the second row of PurchaseOrder.json orders ADIDAS ORIGINAL
 	@Test(dependsOnMethods={"submitOrder"})
 	public void OrderHistoryTest() {
-		ProductCatalog productCatalog=landingPage.loginApplication("ankyhunk@gmail.com","Ank123ur");
+		ProductCatalog productCatalog=landingPage.loginApplication(TestCredentials.email(),TestCredentials.password());
 		OrderPage ordersPage=productCatalog.goToOrdersPage();
 		Assert.assertTrue(ordersPage.VerifyOrderDisplay("ADIDAS ORIGINAL"));
 	}

@@ -13,4 +13,4 @@ Feature: Purchase the order from Ecommerce Website
  	
  	Examples:
 		|name				|password |productName|
-		|ankyhunk@gmail.com |Ank123ur |ZARA COAT 3|
+		|${TEST_EMAIL} |${TEST_PASSWORD} |ZARA COAT 3|

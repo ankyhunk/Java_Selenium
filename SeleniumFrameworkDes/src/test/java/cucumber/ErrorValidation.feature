@@ -9,4 +9,4 @@ Feature: Error Validation
  	
  	Examples:
 		|name				|password |
-		|ankyhunk@gmail.com |Ank1ur   |
+		|${TEST_EMAIL} |wrong-password |

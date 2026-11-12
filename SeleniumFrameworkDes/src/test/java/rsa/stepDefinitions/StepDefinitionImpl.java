@@ -6,6 +6,7 @@ import rsa.pageobjects.ConfirmationPage;
 import rsa.pageobjects.LandingPage;
 import rsa.pageobjects.ProductCatalog;
 import rsa.testcomponents.BaseTest;
+import rsa.testcomponents.TestCredentials;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,7 +31,8 @@ public class StepDefinitionImpl extends BaseTest {
 	
 	@Given("^Logged in with username (.+) and password (.+)$")
 	public void logged_in_username_and_password(String username,String password) {
-		productCatalog=landingPage.loginApplication(username,password);
+		// ${TEST_EMAIL} / ${TEST_PASSWORD} in the feature file come from the environment
+		productCatalog=landingPage.loginApplication(TestCredentials.resolve(username),TestCredentials.resolve(password));
 	}
 	
 	@When("^I add product (.+) to Cart$")

@@ -50,7 +50,7 @@ Claude Code reads `CLAUDE.md` at the start of every session. It holds three thin
 
 - **Allowed without asking:** Maven commands and read-only git commands. Claude can build, test and inspect changes without a permission prompt each time.
 - **Still asks:** everything else, including `git commit` and `git push`. A person approves anything that changes history or leaves the machine.
-- **Denied:** reading `.env` and editing `PurchaseOrder.json`, which holds the test account login. Claude can't read secrets or change the test credentials.
+- **Denied:** reading `.env` and editing `PurchaseOrder.json`. The test login isn't stored in the repo at all: it comes from the `TEST_EMAIL` / `TEST_PASSWORD` environment variables, and data files hold only `${TEST_EMAIL}` placeholders. `PurchaseOrder.json` is locked because other tests depend on its rows (`OrderHistoryTest` checks the order placed by its second row), so new tests get their own data files.
 
 Personal overrides go in `.claude/settings.local.json`, which is git-ignored.
 
@@ -60,15 +60,15 @@ Personal overrides go in `.claude/settings.local.json`, which is git-ignored.
 "PostToolUse": [{
   "matcher": "Edit|Write",
   "hooks": [{ "type": "command",
-              "command": "mvn -q -f SeleniumFrameworkDes/pom.xml compile 1>&2 || exit 2" }]
+              "command": "mvn -q -f SeleniumFrameworkDes/pom.xml test-compile 1>&2 || exit 2" }]
 }]
 ```
 
-After every file Claude edits or writes, the hook compiles the project.
+After every file Claude edits or writes, the hook compiles the project, both the main code and the tests. Using `test-compile` rather than `compile` matters, because `compile` skips `src/test`, and most edits in a test framework are to tests.
 
 - **How the errors reach Claude:** `-q` keeps Maven quiet when the build succeeds. When it fails, `1>&2` sends Maven's error lines to stderr and `exit 2` tells Claude Code to pass them back to Claude. Claude then sees the exact file, line and error, and fixes it in the next step.
 - **Why it isn't optional:** this is a hook rather than an instruction in `CLAUDE.md` because hooks always run. Claude can't forget them or decide to skip them.
-- **Trade-offs:** it compiles but doesn't run tests. Compiling takes about 15–20 seconds, mostly Maven starting up, while the test suite drives a real browser against a live site and takes minutes, too slow to run after every edit. The cost is that wait after each edit, including edits to non-Java files. Narrowing the matcher or running the Maven daemon (`mvnd`) would cut it.
+- **Trade-offs:** it compiles the tests but doesn't run them. Compiling takes about 15–20 seconds, mostly Maven starting up, while the test suite drives a real browser against a live site and takes minutes, too slow to run after every edit. The cost is that wait after each edit, including edits to non-Java files. Narrowing the matcher or running the Maven daemon (`mvnd`) would cut it.
 
 ## 3. Skill: `/new-page-object`
 

@@ -15,7 +15,7 @@ Every file below is committed, so anyone who clones the repo and runs `claude` g
 | [`.github/workflows/claude.yml`](../.github/workflows/claude.yml) | GitHub Actions workflow | Comment `@claude` on an issue or PR and Claude does the work in CI |
 
 ```
-Selenium_Framework/
+Java_Selenium/
 ├── CLAUDE.md
 ├── .claude/
 │   ├── settings.json
